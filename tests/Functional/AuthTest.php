@@ -8,14 +8,14 @@ use MagDv\Sbis\AuthApi;
 use MagDv\Sbis\Entities\Auth\AuthParam;
 use MagDv\Sbis\Entities\Auth\AuthParams;
 use MagDv\Sbis\Entities\Auth\AuthRequest;
-use Test\base\BaseTest;
-use Test\base\LocalConfig;
+use MagDv\Sbis\Entities\LogOut\LogOutRequest;
+use Test\Base\BaseTest;
+use Test\Base\LocalConfig;
 
 class AuthTest extends BaseTest
 {
     public function testAuth(): void
     {
-
         $authApi = new AuthApi(new LocalConfig());
 
         $request = new AuthRequest();
@@ -31,6 +31,35 @@ class AuthTest extends BaseTest
 
         $response = $authApi->auth($request);
 
+        $this->assertTrue($response->isOk());
         $this->assertNotEmpty($response->result);
+    }
+
+    public function testLogOutError(): void
+    {
+        $authApi = new AuthApi(new LocalConfig());
+
+        $response = $authApi->logOut(new LogOutRequest());
+
+        $this->assertFalse($response->isOk());
+        $this->assertNull($response->result);
+        $this->assertEquals(0, $response->id);
+        $this->assertEquals('Ошибка входных параметров: не передан идентификатор сессии', $response->error->message);
+        $this->assertEquals('warning', $response->error->type);
+    }
+
+    public function testLogOut(): void
+    {
+        $apiFactory = ($this->getApiClient())->getApi();
+
+        $sessionId = $apiFactory->getSessionId();
+        $this->assertNotNull($sessionId);
+
+        $auth = $apiFactory->getAuthApi();
+
+        $response = $auth->logOut(new LogOutRequest());
+
+        $this->assertTrue($response->isOk());
+        $this->assertNull($response->result);
     }
 }

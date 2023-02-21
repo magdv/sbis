@@ -13,8 +13,5 @@ interface ClientConfigInterface
 
     public function getUrl(): string;
 
-    public function getLogin(): string;
-    public function getPassword(): string;
-
     public function getClient(): ClientInterface;
 }

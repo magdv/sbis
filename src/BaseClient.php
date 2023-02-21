@@ -30,6 +30,14 @@ class BaseClient
         $this->serializer = $config->getSerializer();
     }
 
+    /**
+     * @param string|null $sessionId
+     */
+    public function setSessionId(?string $sessionId): void
+    {
+        $this->sessionId = $sessionId;
+    }
+
     protected function send(RequestInterface $request): ResponseInterface
     {
         try {

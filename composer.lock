@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1108243072b8e0f5014fbcdabe3d3030",
+    "content-hash": "94a18b79330a8b22c5c4ed66677960fb",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1203,6 +1203,59 @@
                 }
             ],
             "time": "2021-03-25T17:01:18+00:00"
+        },
+        {
+            "name": "divineomega/do-file-cache",
+            "version": "v2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DivineOmega/DO-File-Cache.git",
+                "reference": "23696a8a4c3ebe2ab3d68a35b2698fa103f69334"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DivineOmega/DO-File-Cache/zipball/23696a8a4c3ebe2ab3d68a35b2698fa103f69334",
+                "reference": "23696a8a4c3ebe2ab3d68a35b2698fa103f69334",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-zlib": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DivineOmega\\DOFileCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "description": "DO File Cache is a PHP File-based Caching Library. Its syntax is designed to closely resemble the PHP memcache extension.",
+            "keywords": [
+                "cache",
+                "caching",
+                "caching library",
+                "file cache",
+                "library",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/DivineOmega/DO-File-Cache/issues",
+                "source": "https://github.com/DivineOmega/DO-File-Cache/tree/master"
+            },
+            "time": "2018-12-31T09:36:51+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

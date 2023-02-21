@@ -2,24 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Test\base;
+namespace Test\Base;
 
 use GuzzleHttp\Client;
 use MagDv\Sbis\ClientConfig;
 use Psr\Http\Client\ClientInterface;
-use Test\enums\ConfigNames;
+use Test\Enums\ConfigNames;
 
 class LocalConfig extends ClientConfig
 {
-    private ?string $login;
-    private ?string $password;
-
-    public function __construct(?string $login = null, ?string $password = null)
-    {
-        $this->login = $login;
-        $this->password = $password;
-    }
-
     public function getCachePath(): ?string
     {
         return null;
@@ -35,11 +26,6 @@ class LocalConfig extends ClientConfig
         return getenv(ConfigNames::URL);
     }
 
-    public function getLogin(): string
-    {
-        return $this->login ?: getenv(ConfigNames::LOGIN);
-    }
-
     public function getClient(): ClientInterface
     {
         return new Client(
@@ -47,10 +33,5 @@ class LocalConfig extends ClientConfig
                 'debug' => true,
             ]
         );
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password ?: getenv(ConfigNames::PASSWORD);
     }
 }

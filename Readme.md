@@ -2,67 +2,84 @@
 
 ---------------------------
 
-# Внимание!!! 
+# Внимание!!!
+
 ## Библиотека пока активно редактируется и могут быть несовместимые изменения. Учтите этот момент.
 
 ```php
-Надо сделать свой локальный класс для сериализатора
+Надо сделать свой локальный класс для передачи настроек
 
 declare(strict_types=1);
 
 use GuzzleHttp\Client;
 use MagDv\Sbis\ClientConfig;
+use Psr\Http\Client\ClientInterface;
 
 class LocalConfig extends ClientConfig
 {
     public function getCachePath(): ?string
     {
-        return 'dfdf/df/df/df'; // здесь указываем путь, куда кешируем. Не обязательно, но желательно. Влияет на скорость
+        return null;
     }
 
     public function getIsDebug(): bool
     {
-        return false; // тут надо указать, включать ли дебаг в дев режиме можете включить, чтобы видеть ошибки
+        return true;
     }
 
     public function getUrl(): string
     {
-        return 'URL к апи';
+        return getenv(ConfigNames::URL);
     }
 
-    public function getApiKey(): string
+    public function getClient(): ClientInterface
     {
-        return 'apiKey';
-    }
-
-    public function getClient(): HttpClientInterface
-    {
-         // PSR-18 совместимый клиент
-        return new Client();
+        return new Client(
+            [
+                'debug' => true,
+            ]
+        );
     }
 }
-        $request = new SendWaybillRequest();
-        $request->waybill = 'xml content';
-        $request->waybillFileName = 'name.xml';
-        $request->waybillSignFileName = 'sign_name.sig';
-        $request->waybillSign = 'sig_content';
+// пример авторизации
+        
+// Настройка запроса
+$request = new AuthRequest();
+$param = new AuthParam();
+$param->login = (string)getenv('LOGIN');
+$param->password = (string)getenv('PASSWORD');
 
-        $logistics = new LogisticsDocuments(new LocalConfig());
-        $response = $logistics->sendWaybill($request);
+$params = new AuthParams();
+$params->param = $param;
 
-        // Текущий статус ответа
-        echo $response->statusCode;
-        // Проверка, что удачный запрос
-        echo $response->isOk();
+$request->params = $params;
 
-        // Проверка статуса и вывод ошибки
-        if (!$response->isOk()) {
-         echo $response->error->message;
-        }
+$factory = new \MagDv\Sbis\SbisFactory(new LocalConfig());
+$authApi = $factory->getAuthApi();
 
-        $response->transportationId;
+$response = $authApi->auth($request);
+
+// Текущий код ответа
+$response->statusCode;
+
+// Проверка, что удачный запрос
+if ($response->isOk()) {
+// ID СЕССИИ
+    $sessionId = $response->result;
+}
+
+// Проверка статуса и вывод ошибки
+if (!$response->isOk()) {
+ echo $response->error;
+}
+
+// Устанавливаем токен
+$factory->setSessionId($sessionId);
+
+// Тут уже с токеном начинаем использовать
+$factory->.....
 ```
 
 ## Сделаны и протестированы методы
 
-- `v1/mintransgateway/uuid`
+- `СБИС.Аутентифицировать`
