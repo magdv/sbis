@@ -19,6 +19,12 @@ class ApiClient
 
     private ?DOFileCache $cache = null;
 
+
+    public function __construct()
+    {
+        $this->cache = Cache::getCache();
+    }
+
     private function auth(): void
     {
         $sessionId = $this->cache->get(ConfigNames::SESSION_ID);
@@ -57,9 +63,13 @@ class ApiClient
     public function getApi(): SbisFactory
     {
         $this->api = new SbisFactory(new LocalConfig());
-        $this->cache = Cache::getCache();
         $this->auth();
 
         return $this->api;
+    }
+
+    public function clearSessionToken(): void
+    {
+        $this->cache->delete(ConfigNames::SESSION_ID);
     }
 }

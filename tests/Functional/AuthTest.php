@@ -50,7 +50,11 @@ class AuthTest extends BaseTest
 
     public function testLogOut(): void
     {
-        $apiFactory = ($this->getApiClient())->getApi();
+        $client = $this->getApiClient();
+        // Заранее очищаем токен
+        $client->clearSessionToken();
+
+        $apiFactory = $client->getApi();
 
         $sessionId = $apiFactory->getSessionId();
         $this->assertNotNull($sessionId);
@@ -58,6 +62,9 @@ class AuthTest extends BaseTest
         $auth = $apiFactory->getAuthApi();
 
         $response = $auth->logOut(new LogOutRequest());
+
+        // Очищаем кеш, т.к. токен невалиден
+        $client->clearSessionToken();
 
         $this->assertTrue($response->isOk());
         $this->assertNull($response->result);
