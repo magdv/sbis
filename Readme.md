@@ -55,7 +55,7 @@ $params->param = $param;
 $request->params = $params;
 
 $factory = new \MagDv\Sbis\SbisFactory(new LocalConfig());
-$authApi = $factory->getAuthApi();
+$authApi = $factory->getAuth();
 
 $response = $authApi->auth($request);
 
@@ -77,10 +77,30 @@ if (!$response->isOk()) {
 $factory->setSessionId($sessionId);
 
 // Тут уже с токеном начинаем использовать
-$factory->.....
+$contractor = $factory->getContractor();
+
+$request = new GetInfoRequest();
+$request->params = new GetInfoParams();
+$request->params->memberParam = new MemberParam();
+$request->params->memberParam->ul = new UlMember();
+$request->params->memberParam->ul->inn = '7601000985';
+$request->params->memberParam->ul->kpp = '760601001';
+$request->params->memberParam->ul->name = 'СК Премьер, ОАО';
+
+// СБИС.ИнформацияОКонтрагенте
+$response = $contractor->getInfo($request);
+
+if ($response->isOk()) {
+    echo $response->result->member->inn
+}
+
+//результат
+7601000985
+
 ```
 
 ## Сделаны и протестированы методы
 
 - `СБИС.Аутентифицировать`
 - `СБИС.Выход`
+- `СБИС.ИнформацияОКонтрагенте`

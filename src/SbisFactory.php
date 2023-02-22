@@ -16,12 +16,20 @@ class SbisFactory
         $this->clientConfig = $clientConfig;
     }
 
-    public function getAuthApi(): AuthApi
+    public function getAuth(): AuthApi
     {
         $auth = new AuthApi($this->clientConfig);
         $auth->setSessionId($this->sessionId);
 
         return $auth;
+    }
+
+    public function getContractor(): ContractorApi
+    {
+        $contractor = new ContractorApi($this->clientConfig);
+        $contractor->setSessionId($this->sessionId);
+
+        return $contractor;
     }
 
     public function setSessionId(string $sessionId): void

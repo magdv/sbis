@@ -48,7 +48,7 @@ class ApiClient
 
         $request->params = $params;
 
-        $auth = $this->api->getAuthApi();
+        $auth = $this->api->getAuth();
 
         $response = $auth->auth($request);
 

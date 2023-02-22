@@ -59,7 +59,7 @@ class AuthTest extends BaseTest
         $sessionId = $apiFactory->getSessionId();
         $this->assertNotNull($sessionId);
 
-        $auth = $apiFactory->getAuthApi();
+        $auth = $apiFactory->getAuth();
 
         $response = $auth->logOut(new LogOutRequest());
 
