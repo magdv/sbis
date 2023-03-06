@@ -32,6 +32,14 @@ class SbisFactory
         return $contractor;
     }
 
+    public function getDocument(): DocumentApi
+    {
+        $documentApi = new DocumentApi($this->clientConfig);
+        $documentApi->setSessionId($this->sessionId);
+
+        return $documentApi;
+    }
+
     public function setSessionId(string $sessionId): void
     {
         $this->sessionId = $sessionId;
