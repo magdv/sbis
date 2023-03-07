@@ -28,6 +28,7 @@ class Document
 
     /**
      * @var \MagDv\Sbis\Entities\Document\SendDocument\Request\Attachment[]|null
+     * @Serializer\SerializedName("Вложение")
      * @Serializer\Type("array<MagDv\Sbis\Entities\Document\SendDocument\Request\Attachment>")
      */
     public ?array $attachments = null;
