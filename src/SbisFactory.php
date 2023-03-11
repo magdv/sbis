@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace MagDv\Sbis;
 
+use MagDv\Sbis\Interfaces\AuthApiInterface;
 use MagDv\Sbis\Interfaces\ClientConfigInterface;
+use MagDv\Sbis\Interfaces\ContractorApiInterface;
+use MagDv\Sbis\Interfaces\DocumentApiInterface;
 
 class SbisFactory
 {
@@ -16,7 +19,7 @@ class SbisFactory
         $this->clientConfig = $clientConfig;
     }
 
-    public function getAuth(): AuthApi
+    public function getAuth(): AuthApiInterface
     {
         $auth = new AuthApi($this->clientConfig);
         $auth->setSessionId($this->sessionId);
@@ -24,7 +27,7 @@ class SbisFactory
         return $auth;
     }
 
-    public function getContractor(): ContractorApi
+    public function getContractor(): ContractorApiInterface
     {
         $contractor = new ContractorApi($this->clientConfig);
         $contractor->setSessionId($this->sessionId);
@@ -32,7 +35,7 @@ class SbisFactory
         return $contractor;
     }
 
-    public function getDocument(): DocumentApi
+    public function getDocument(): DocumentApiInterface
     {
         $documentApi = new DocumentApi($this->clientConfig);
         $documentApi->setSessionId($this->sessionId);
