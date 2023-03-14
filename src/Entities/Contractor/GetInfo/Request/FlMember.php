@@ -9,6 +9,11 @@ use JMS\Serializer\Annotation as Serializer;
 class FlMember
 {
     /**
+     * @Serializer\SerializedName("ИНН")
+     * @Serializer\Type("string")
+     */
+    public ?string $inn = null;
+    /**
      * @Serializer\SerializedName("ЧастноеЛицо")
      * @Serializer\Type("string")
      */
