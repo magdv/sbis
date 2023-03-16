@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MagDv\Sbis;
 
+use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesRequest;
+use MagDv\Sbis\Entities\Document\ListOfChanges\Response\ListOfChangesResponse;
 use MagDv\Sbis\Entities\Document\MakeAction\Request\MakeActionRequest;
 use MagDv\Sbis\Entities\Document\MakeAction\Response\MakeActionResponse;
 use MagDv\Sbis\Entities\Document\SendDocument\Request\SendDocumentRequest;
@@ -52,6 +54,28 @@ class DocumentApi extends BaseClient implements DocumentApiInterface
 
         /** @var MakeActionResponse $body */
         $body = $this->serializer->deserialize($data, MakeActionResponse::class, 'json');
+        $body->statusCode = $response->getStatusCode();
+
+        return $body;
+    }
+
+    public function listOfChanges(ListOfChangesRequest $listOfChangesRequest): ListOfChangesResponse
+    {
+        $req = new Request(
+            'POST',
+            $this->url . 'service/',
+            [
+                'Content-Type' => 'application/json-rpc;charset=utf-8',
+                'Accept' => 'application/json',
+            ],
+            $this->serializer->serialize($listOfChangesRequest, 'json')
+        );
+
+        $response = $this->send($req);
+        $data = $response->getBody()->getContents();
+
+        /** @var ListOfChangesResponse $body */
+        $body = $this->serializer->deserialize($data, ListOfChangesResponse::class, 'json');
         $body->statusCode = $response->getStatusCode();
 
         return $body;

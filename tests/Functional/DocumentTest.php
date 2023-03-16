@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
+use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesFilter;
+use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesParams;
+use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesRequest;
+use MagDv\Sbis\Entities\Document\ListOfChanges\Request\Navigation;
+use MagDv\Sbis\Entities\Document\ListOfChanges\Request\Organization;
+use MagDv\Sbis\Entities\Document\ListOfChanges\Request\Ul;
 use MagDv\Sbis\Entities\Document\MakeAction\Request\Action;
 use MagDv\Sbis\Entities\Document\MakeAction\Request\MakeActionRequest;
 use MagDv\Sbis\Entities\Document\MakeAction\Request\Sign;
@@ -14,6 +20,7 @@ use MagDv\Sbis\Entities\Document\SendDocument\Request\DocumentParams;
 use MagDv\Sbis\Entities\Document\SendDocument\Request\File;
 use MagDv\Sbis\Entities\Document\SendDocument\Request\Regulations;
 use MagDv\Sbis\Entities\Document\SendDocument\Request\SendDocumentRequest;
+use mysql_xdevapi\TableUpdate;
 use Test\Base\BaseTest;
 
 class DocumentTest extends BaseTest
@@ -51,6 +58,9 @@ class DocumentTest extends BaseTest
         $this->assertEquals('ConsignmentNote', $response->result->type);
         $this->assertNotEmpty($attachmentId);
 
+        $stageId = $response->result->stages[0]->id;
+        $this->assertNotEmpty($stageId);
+
         // тут проверяем ВыполнитьДействие
 
         $request = new MakeActionRequest();
@@ -76,9 +86,29 @@ class DocumentTest extends BaseTest
         $request->params->documentParam->stage->attachments[] = $makeAttachment;
         $request->params->documentParam->stage->actions = [new Action()];
 
-        $response = $document->makeAction($request);
+        $actionResponse = $document->makeAction($request);
 
-        $this->assertTrue($response->isOk());
-        $this->assertEquals($docId, $response->result->id);
+        $this->assertTrue($actionResponse->isOk());
+        $this->assertEquals($docId, $actionResponse->result->id);
+
+
+        // тут проверяем список изменений
+        $changesRequest = new ListOfChangesRequest();
+
+        $changesRequest->params = new ListOfChangesParams();
+
+        $changesRequest->params->filter = new ListOfChangesFilter();
+//        $changesRequest->params->filter->dateTimeFrom = (new \DateTimeImmutable($response->result->createDateTime.' - 2 minutes'))->format('d.m.Y H.i.s');
+        $changesRequest->params->filter->organization = new Organization();
+        $changesRequest->params->filter->organization->ul = new Ul();
+        $changesRequest->params->filter->organization->ul->inn = '7017477919';// Это Корса
+        $changesRequest->params->filter->organization->ul->kpp = '701701001';// Это Корса
+
+        $changesRequest->params->filter->navigation = new Navigation();
+        $changesRequest->params->filter->navigation->count = '50';
+
+        $changes = $document->listOfChanges($changesRequest);
+
+        $this->assertNotEmpty($changes->result->document);
     }
 }
