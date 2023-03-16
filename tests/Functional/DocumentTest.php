@@ -20,7 +20,6 @@ use MagDv\Sbis\Entities\Document\SendDocument\Request\DocumentParams;
 use MagDv\Sbis\Entities\Document\SendDocument\Request\File;
 use MagDv\Sbis\Entities\Document\SendDocument\Request\Regulations;
 use MagDv\Sbis\Entities\Document\SendDocument\Request\SendDocumentRequest;
-use mysql_xdevapi\TableUpdate;
 use Test\Base\BaseTest;
 
 class DocumentTest extends BaseTest

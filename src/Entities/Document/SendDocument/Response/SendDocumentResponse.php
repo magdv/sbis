@@ -6,11 +6,12 @@ namespace MagDv\Sbis\Entities\Document\SendDocument\Response;
 
 use JMS\Serializer\Annotation as Serializer;
 use MagDv\Sbis\BaseResponse;
+use MagDv\Sbis\Entities\Document\Common\Document;
 
 class SendDocumentResponse extends BaseResponse
 {
     /**
-     * @Serializer\Type("MagDv\Sbis\Entities\Document\SendDocument\Response\Result")
+     * @Serializer\Type("MagDv\Sbis\Entities\Document\Common\Document")
      */
-    public ?Result $result = null;
+    public ?Document $result = null;
 }

@@ -5,19 +5,24 @@ declare(strict_types=1);
 namespace MagDv\Sbis\Entities\Document\MakeAction\Response;
 
 use JMS\Serializer\Annotation as Serializer;
+use MagDv\Sbis\Entities\Document\Common\Branch;
+use MagDv\Sbis\Entities\Document\Common\Contragent;
+use MagDv\Sbis\Entities\Document\Common\Navigation;
+use MagDv\Sbis\Entities\Document\Common\Organization;
+use MagDv\Sbis\Entities\Document\Common\Responsible;
 
 class Result
 {
     /**
-     * @var \MagDv\Sbis\Entities\Document\MakeAction\Response\Document[]|null
+     * @var \MagDv\Sbis\Entities\Document\Common\Document[]|null
      * @Serializer\SerializedName("Документ")
-     * @Serializer\Type("array<MagDv\Sbis\Entities\Document\MakeAction\Response\Document>")
+     * @Serializer\Type("array<MagDv\Sbis\Entities\Document\Common\Document>")
      */
     public ?array $documents = null;
 
     /**
      * @Serializer\SerializedName("Навигация")
-     * @Serializer\Type("MagDv\Sbis\Entities\Document\MakeAction\Response\Navigation")
+     * @Serializer\Type("MagDv\Sbis\Entities\Document\Common\Navigation")
      */
     public ?Navigation $navigation = null;
 
@@ -36,25 +41,25 @@ class Result
 
     /**
      * @Serializer\SerializedName("Контрагент")
-     * @Serializer\Type("MagDv\Sbis\Entities\Document\MakeAction\Response\Organization")
+     * @Serializer\Type("MagDv\Sbis\Entities\Document\Common\Contragent")
      */
-    public ?Organization $contragent = null;
+    public ?Contragent $contragent = null;
 
     /**
      * @Serializer\SerializedName("НашаОрганизация")
-     * @Serializer\Type("MagDv\Sbis\Entities\Document\MakeAction\Response\Organization")
+     * @Serializer\Type("MagDv\Sbis\Entities\Document\Common\Organization")
      */
     public ?Organization $ourOrganization = null;
 
     /**
      * @Serializer\SerializedName("Ответственный")
-     * @Serializer\Type("MagDv\Sbis\Entities\Document\MakeAction\Response\Responsible")
+     * @Serializer\Type("MagDv\Sbis\Entities\Document\Common\Responsible")
      */
     public ?Responsible $responsible = null;
 
     /**
      * @Serializer\SerializedName("Подразделение")
-     * @Serializer\Type("MagDv\Sbis\Entities\Document\MakeAction\Response\Branch")
+     * @Serializer\Type("MagDv\Sbis\Entities\Document\Common\Branch")
      */
     public ?Branch $branch = null;
 
@@ -71,9 +76,9 @@ class Result
     public ?string $note = null;
 
     /**
-     * @var ResultRedaction[]|null
+     * @var \MagDv\Sbis\Entities\Document\Common\Redaction[]|null
      * @Serializer\SerializedName("Редакция")
-     * @Serializer\Type("array<MagDv\Sbis\Entities\Document\MakeAction\Response\ResultRedaction>")
+     * @Serializer\Type("array<MagDv\Sbis\Entities\Document\Common\Redaction>")
      */
     public ?array $redactions = null;
 
