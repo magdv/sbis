@@ -5107,7 +5107,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4",
+        "php": ">=7.4",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-simplexml": "*"
