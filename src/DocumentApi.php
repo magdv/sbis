@@ -28,8 +28,7 @@ class DocumentApi extends BaseClient implements DocumentApiInterface
         );
 
         $response = $this->send($req);
-        $data = $response->getBody()->getContents();
-
+        $data = $this->prepareResponse($response);
         /** @var SendDocumentResponse $body */
         $body = $this->serializer->deserialize($data, SendDocumentResponse::class, 'json');
         $body->statusCode = $response->getStatusCode();
@@ -50,7 +49,7 @@ class DocumentApi extends BaseClient implements DocumentApiInterface
         );
 
         $response = $this->send($req);
-        $data = $response->getBody()->getContents();
+        $data = $this->prepareResponse($response);
 
         /** @var MakeActionResponse $body */
         $body = $this->serializer->deserialize($data, MakeActionResponse::class, 'json');
@@ -72,7 +71,7 @@ class DocumentApi extends BaseClient implements DocumentApiInterface
         );
 
         $response = $this->send($req);
-        $data = $response->getBody()->getContents();
+        $data = $this->prepareResponse($response);
 
         /** @var ListOfChangesResponse $body */
         $body = $this->serializer->deserialize($data, ListOfChangesResponse::class, 'json');

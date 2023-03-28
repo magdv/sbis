@@ -24,7 +24,7 @@ class ContractorApi extends BaseClient implements ContractorApiInterface
         );
 
         $response = $this->send($req);
-        $data = $response->getBody()->getContents();
+        $data = $this->prepareResponse($response);
 
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300 && $request->params->memberParam->extendedFields) {
             $array = json_decode($data, true);

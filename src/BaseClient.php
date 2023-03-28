@@ -51,4 +51,21 @@ class BaseClient
 
         return $response;
     }
+
+    protected function prepareResponse(ResponseInterface $response): string
+    {
+        if ($response->getStatusCode() > 300) {
+            $array = json_decode($response->getBody()->getContents(), true);
+
+            if (isset($array['error']) && is_string($array['error'])) {
+                $error = $array['error'];
+                $array['error'] = ['message' => $error];
+            }
+            $data = json_encode($array, JSON_UNESCAPED_UNICODE);
+        } else {
+            $data = $response->getBody()->getContents();
+        }
+
+        return $data;
+    }
 }

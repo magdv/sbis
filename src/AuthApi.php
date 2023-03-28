@@ -26,9 +26,9 @@ class AuthApi extends BaseClient implements AuthApiInterface
         );
 
         $response = $this->send($req);
-
+        $data = $this->prepareResponse($response);
         /** @var AuthResponse $body */
-        $body = $this->serializer->deserialize($response->getBody()->getContents(), AuthResponse::class, 'json');
+        $body = $this->serializer->deserialize($data, AuthResponse::class, 'json');
         $body->statusCode = $response->getStatusCode();
 
         return $body;
@@ -47,9 +47,9 @@ class AuthApi extends BaseClient implements AuthApiInterface
         );
 
         $response = $this->send($req);
-
+        $data = $this->prepareResponse($response);
         /** @var LogOutResponse $body */
-        $body = $this->serializer->deserialize($response->getBody()->getContents(), LogOutResponse::class, 'json');
+        $body = $this->serializer->deserialize($data, LogOutResponse::class, 'json');
         $body->statusCode = $response->getStatusCode();
 
         return $body;
