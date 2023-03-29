@@ -43,7 +43,7 @@ class SbisFactory
         return $documentApi;
     }
 
-    public function setSessionId(string $sessionId): void
+    public function setSessionId(?string $sessionId): void
     {
         $this->sessionId = $sessionId;
     }
