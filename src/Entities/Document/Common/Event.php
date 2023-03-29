@@ -45,4 +45,11 @@ class Event
      * @Serializer\Type("string")
      */
     public ?string $name = null;
+
+    /**
+     * @var ChangesAction|null
+     * @Serializer\SerializedName("Действие")
+     * @Serializer\Type("MagDv\Sbis\Entities\Document\Common\ChangesAction")
+     */
+    public ?ChangesAction $action = null;
 }
