@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
+use MagDv\Sbis\Entities\Document\Download\Request\DownloadRequest;
 use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesFilter;
 use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesParams;
 use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesRequest;
@@ -109,5 +110,12 @@ class DocumentTest extends BaseTest
         $changes = $document->listOfChanges($changesRequest);
 
         $this->assertNotEmpty($changes->result->document);
+
+        // урл заранее был создан и через какое - то время он может исчезнуть и тесты будут падать. Надо переделать тесты так, чтобы урл брался из ответов $changes
+//        $downloadRequest = new DownloadRequest();
+//        $downloadRequest->url = 'https://fix-online.sbis.ru/pdfservicepublic/service/?method=%D0%A1%D0%B5%D1%80%D0%B2%D0%B8%D1%81PDF.%D0%A1%D0%B8%D0%BD%D1%85%D1%80%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F%D0%9F%D0%B5%D1%87%D0%B0%D1%82%D1%8C&params=eyJEb2N1bWVudHMiOnsicyI6W3sibiI6ItCY0LTQniIsInQiOiLQp9C40YHQu9C%2BINGG0LXQ%0Au9C%2B0LUifSx7Im4iOiLQoNCw0LfQtNC10LsiLCJ0Ijoi0KfQuNGB0LvQviDRhtC10LvQvtC1%0AIn0seyJ0Ijp7Im4iOiLQnNCw0YHRgdC40LIiLCJ0Ijoi0KLQtdC60YHRgiJ9LCJuIjoi0KHQ%0Av9C40YHQvtC60JLQktCUIn1dLCJkIjpbWzE5LG51bGwsWzcxXV1dfSwiT2JqZWN0TmFtZSI6%0AIkRvY1ByaW50IiwiTWV0aG9kTmFtZSI6Ik1hc3NMaXN0IiwiUGFyYW1zIjp7InMiOlt7Im4i%0AOiJPdXRwdXRGaWxlTmFtZSIsInQiOiLQodGC0YDQvtC60LAifSx7Im4iOiJSZXFJZCIsInQi%0AOiLQodGC0YDQvtC60LAifSx7Im4iOiJkc2wiLCJ0Ijoi0KfQuNGB0LvQviDRhtC10LvQvtC1%0AIn0seyJuIjoiVW5zdXBwb3J0ZWRGaWxlSW5mbyIsInQiOiLQm9C%2B0LPQuNGH0LXRgdC60L7Q%0AtSJ9XSwiZCI6WyJPTl9UUk5BQ0xHUk9UXzJCRTk0NzUzZDQzMzRmNDRiZTA5ZTkxOWEwY2E3%0AM2E4ZjYyXzJCRTk2MGQwYzY2MTYzMDExZTM4NGM0MDA1MDU2YjcwZDkwXzJCRWJiMWU4YTli%0AYzdkMTQ1MGJiZGIyMDdjNjgwOGY0MDZhXzBfMjAyMzAzMDdfZDhlNTBhZDQtNjdhNy00YTdk%0ALWI0ZGQtODA4NjhmNDBlMTA3LnBkZiIsIjExMDY5MjcxNTEyNTYyMjUyNzgyIiwiMSIsZmFs%0Ac2VdfX0%3D&protocol=3&id=0&srv=1';
+//
+//        $response = $document->downloadDocument($downloadRequest);
+//        $this->assertNotEmpty($response->content);
     }
 }

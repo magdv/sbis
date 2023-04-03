@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MagDv\Sbis;
 
+use MagDv\Sbis\Entities\Document\Download\Request\DownloadRequest;
+use MagDv\Sbis\Entities\Document\Download\Response\DownloadResponse;
 use MagDv\Sbis\Entities\Document\ListOfChanges\Request\ListOfChangesRequest;
 use MagDv\Sbis\Entities\Document\ListOfChanges\Response\ListOfChangesResponse;
 use MagDv\Sbis\Entities\Document\MakeAction\Request\MakeActionRequest;
@@ -76,6 +78,30 @@ class DocumentApi extends BaseClient implements DocumentApiInterface
         /** @var ListOfChangesResponse $body */
         $body = $this->serializer->deserialize($data, ListOfChangesResponse::class, 'json');
         $body->statusCode = $response->getStatusCode();
+
+        return $body;
+    }
+
+    public function downloadDocument(DownloadRequest $downloadRequest): DownloadResponse
+    {
+        $req = new Request(
+            'GET',
+            $downloadRequest->url
+        );
+
+        $response = $this->send($req);
+        $data = $this->prepareResponse($response);
+
+        if ($response->getStatusCode() === 500) {
+            /** @var DownloadResponse $body */
+            $body = $this->serializer->deserialize($data, DownloadResponse::class, 'json');
+            $body->statusCode = $response->getStatusCode();
+        } else {
+            /** @var DownloadResponse $body */
+            $body = new DownloadResponse();
+            $body->content = $data;
+            $body->statusCode = $response->getStatusCode();
+        }
 
         return $body;
     }
