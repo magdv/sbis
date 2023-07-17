@@ -55,11 +55,15 @@ class BaseClient
     protected function prepareResponse(ResponseInterface $response): string
     {
         if ($response->getStatusCode() > 300) {
-            $array = json_decode($response->getBody()->getContents(), true);
+            $content = $response->getBody()->getContents();
+            $array = json_decode($content, true);
 
             if (isset($array['error']) && is_string($array['error'])) {
                 $error = $array['error'];
                 $array['error'] = ['message' => $error];
+            } else {
+                // если не пришел error, то подставляем просто полный текст ответа
+                $array['error'] = ['message' => $content];
             }
             $data = json_encode($array, JSON_UNESCAPED_UNICODE);
         } else {
